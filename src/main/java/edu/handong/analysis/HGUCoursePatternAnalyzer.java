@@ -56,18 +56,18 @@ public class HGUCoursePatternAnalyzer {
 	 * @return
 	 */
 	private Student[] initiateStudentArrayFromLines(String[] lines) {
-		Student myStu[] = new Student[lines.length];
+		Student myStu[]= new Student[numOfStudents];
 		int j = 0;
 		for(int i = 0; i < lines.length; i++) {
-			Student stuName = new Student(lines[i].trim().split(",")[1]);
-			myStu[j] = stuName;
-			j++;
-			if(studentExist(myStu, stuName)==true) {
-				
+			String stuName[] = lines[i].trim().split(",");
+			Student student = new Student(stuName[1].trim());
+			if(studentExist(myStu, student)) {
+				continue;
 			}
-			
+			myStu[j]= new Student(stuName[1].trim());
+			j++;
 		}
-
+		
 		return myStu;
 	}
 
@@ -80,7 +80,10 @@ public class HGUCoursePatternAnalyzer {
 	private boolean studentExist(Student[] students, Student student) {
 		
 		for(int i = 0; i < students.length; i++) {
-			if(students[i].getName().equals(student.getName())) {
+			if(students[i]== null) {
+				return false;
+			}
+			if(student.getName().equals(students[i].getName())) {
 				return true;
 			}
 		}
@@ -94,11 +97,16 @@ public class HGUCoursePatternAnalyzer {
 	 */
 	private Course[] initiateCourseArrayFromLines(String[] lines) {
 		
-		Course myCour[] = new Course[lines.length];
+		Course myCour[] = new Course[numOfCourses];
+		int j = 0;
 		for(int i = 0; i < lines.length; i++) {
-			Course courName = new Course(lines[i].trim().split(",")[2]);
-			myCour[i] = courName;
-			
+			String courName[] = lines[i].trim().split(",");
+			Course course = new Course(courName[2].trim());
+			if(courseExist(myCour, course)) {
+				continue;
+			}
+			myCour[j] = new Course(courName[2].trim());
+			j++;
 		}
 		
 		return myCour;
@@ -113,7 +121,10 @@ public class HGUCoursePatternAnalyzer {
 	private boolean courseExist(Course[] courses, Course course) {
 		
 		for(int i = 0; i < courses.length; i++) {
-			if(courses[i] == course) {
+			if(courses[i] == null) {
+				return false;
+			}
+			if(course.getCourseName().equals(courses[i].getCourseName())) {
 				return true;
 			}
 		}
